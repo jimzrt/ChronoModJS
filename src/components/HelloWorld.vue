@@ -10,6 +10,7 @@
       class="flex flex-col w-[60%]"
       v-if="chronoStore.resourceEntries.length > 0"
     >
+        <span class="p-2">{{filteredResourceEntries.length}}/{{chronoStore.resourceEntries.length}} Files</span>
       <input
         type="text"
         v-model="search"
@@ -115,7 +116,7 @@
       <!-- <ResourcePreview :value="selectedResourceEntry" /> -->
       <ResourceEntryPreviewBase
         :value="selectedResourceEntry"
-        :onGetData="(entry) => decodeAndDecompress(entry.offset, entry.size)"
+        :onGetData="(entry) => readDecodeAndDecompress(entry.offset, entry.size)"
       />
     </div>
   </div>
@@ -172,19 +173,22 @@ const changeSort = (sort: "index" | "path" | "size") => {
     sortDirection.value = "asc";
   }
 };
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const extractAll = async () => {
   const dataGenerator = async function* () {
     for (const entry of chronoStore.resourceEntries) {
-      // sleep 10 ms
-      await sleep(10);
-      const data = await decodeAndDecompress(entry.offset, entry.size);
+      const data = await readDecodeAndDecompress(entry.offset, entry.size);
       yield { name: entry.path, input: data };
     }
   };
+  // const metadataGenerator = function* () {
+  //   for(const entry of chronoStore.resourceEntries) {
+  //     yield { name: entry.path, size: entry.size };
+  //   }
+  // }
+  // const packedSize = predictLength(metadataGenerator());
   streamsaver.mitm = 'mitm.html'
-  const fileStream = streamsaver.createWriteStream("resourcebin.zip")
+  const fileStream = streamsaver.createWriteStream("resourcebin.zip");
   await makeZip(dataGenerator()).pipeTo(fileStream);
 };
 
@@ -230,7 +234,7 @@ watch(filteredResourceEntries, () => {
   }
 });
 
-const decodeAndDecompress = async (offset: number, size: number) => {
-  return chronoStore.decodeAndDecompress(offset, size);
+const readDecodeAndDecompress = async (offset: number, size: number) => {
+  return chronoStore.readDecodeAndDecompress(offset, size);
 };
 </script>

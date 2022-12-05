@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
 import { ResourceEntryType, useChronoStore } from "../stores/ChronoStore";
+import { StreamGenerator } from "../util/FileStreamReader";
 import pako from "pako";
 
 const chronoStore = useChronoStore();
@@ -33,7 +34,8 @@ const onResourceBinFileChange = async (e: Event) => {
 };
 
 const loadResourceEntries = async () => {
-  const buffer = await chronoStore.decode_input(0, 16);
+  const buffer = await chronoStore.readAndDecode(0, 16);
+ // const streamGenerator = StreamGenerator(chronoStore.blob!);
 
   // get the size from the header
   const size_in_header = new DataView(buffer.buffer).getUint32(4, true);
@@ -48,7 +50,7 @@ const loadResourceEntries = async () => {
   console.log("offset: " + offset_header);
   console.log("compressed length: " + compressed_length_header);
 
-  const header_buffer = await chronoStore.decode_input(
+  const header_buffer = await chronoStore.readAndDecode(
     offset_header,
     compressed_length_header
   );
@@ -64,7 +66,6 @@ const loadResourceEntries = async () => {
     true
   );
   console.log("entry count: " + entry_count);
-
   let offset = 4;
   for (let i = 0; i < entry_count; ++i) {
     const path_name_offset = new DataView(uncompressed_buffer.buffer).getUint32(
@@ -112,21 +113,38 @@ const loadResourceEntries = async () => {
     if (path.toLocaleLowerCase().startsWith("string_")) {
       entryType = "font";
     }
-
-    chronoStore.resourceEntries.push({
+    const resourceEntry = {
       index: i + 1,
       path,
       offset: entry_offset,
       size: entry_size,
       type: entryType,
-    });
+    };
+    chronoStore.resourceEntries.push(resourceEntry);
+
+    // const buffer = await streamGenerator.read(entry_offset, 4);
+    // chronoStore.decode(entry_offset, 4, buffer);
+    // const view = new DataView(buffer.buffer);
+    // const size = view.getUint32(0, false);
+    // finalSize += size;
+    // const size2 =  await chronoStore.getUncompressedSize(resourceEntry);
+    // console.log("size: " + size + " size2: " + size2);
+
+
+     // finalSize += await chronoStore.getUncompressedSize(resourceEntry);
+
+    //   const buffer = await decode_input(resourceEntry.offset, 4);
+    // const view = new DataView(buffer.buffer);
+    // return view.getUint32(0, false);
+
+
   }
 };
 
 const validateHeader = async () => {
   if (!chronoStore.blob === null) return false;
   const magic_header = "ARC1";
-  const buffer = await chronoStore.decode_input(0, 16);
+  const buffer = await chronoStore.readAndDecode(0, 16);
   // convert the buffer to a string
   const header = new TextDecoder().decode(buffer.slice(0, 4));
   // check if the header matches the magic header
