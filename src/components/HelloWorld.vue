@@ -19,7 +19,10 @@
       <div
         class="bg-gray-700 w-full h-10 sm:rounded-t-md flex-shrink-0 flex px-4 sm:px-6 items-center"
       >
-        <div class="w-[10%] flex gap-2 items-center cursor-pointer" @click="() => changeSort('index')">
+        <div
+          class="w-[10%] flex gap-2 items-center cursor-pointer"
+          @click="() => changeSort('index')"
+        >
           <span>Idx</span>
           <span v-if="sortBy == 'index'"
             ><Component
@@ -27,7 +30,10 @@
               class="w-4"
           /></span>
         </div>
-        <div class="w-[75%] flex gap-2 items-center cursor-pointer" @click="() => changeSort('path')">
+        <div
+          class="w-[75%] flex gap-2 items-center cursor-pointer"
+          @click="() => changeSort('path')"
+        >
           <span>Path</span>
           <span v-if="sortBy == 'path'"
             ><Component
@@ -35,7 +41,10 @@
               class="w-4"
           /></span>
         </div>
-        <div class="w-[15%] flex gap-2 items-center cursor-pointer" @click="() => changeSort('size')">
+        <div
+          class="w-[15%] flex gap-2 items-center cursor-pointer"
+          @click="() => changeSort('size')"
+        >
           <span>Size</span>
           <span v-if="sortBy == 'size'"
             ><Component
@@ -96,10 +105,7 @@
         >
           <span><LanguageIcon class="w-4" /></span><span>Font</span>
         </button>
-        <button
-          @click="() => extractAll()"
-          class="flex gap-2 items-center"
-        >
+        <button @click="() => extractAll()" class="flex gap-2 items-center">
           <span><ArrowDownTrayIcon class="w-4" /></span><span>Extract All</span>
         </button>
       </div>
@@ -130,7 +136,7 @@ import {
   LanguageIcon,
   ChevronUpIcon,
   ChevronDownIcon,
-  ArrowDownTrayIcon
+  ArrowDownTrayIcon,
 } from "@heroicons/vue/24/outline";
 import streamsaver from "streamsaver";
 import { makeZip } from "client-zip";
@@ -169,44 +175,43 @@ const changeSort = (sort: "index" | "path" | "size") => {
 
 const extractAll = async () => {
   const dataGenerator = async function* () {
-    for(const entry of chronoStore.resourceEntries) {
+    for (const entry of chronoStore.resourceEntries) {
       const data = await decodeAndDecompress(entry.offset, entry.size);
-      yield { name: entry.path, input: data }
+      yield { name: entry.path, input: data };
     }
-
   };
-  await makeZip(dataGenerator()).pipeTo(streamsaver.createWriteStream("resourcebin.zip"));
+  await makeZip(dataGenerator()).pipeTo(
+    streamsaver.createWriteStream("resourcebin.zip")
+  );
 };
 
-
 const filteredResourceEntries = computed(() => {
-
-  return chronoStore.resourceEntries.filter((entry) => {
-    if (!showImages.value && entry.type === "image") return false;
-    if (!showAudio.value && entry.type === "audio") return false;
-    if (!showText.value && entry.type === "text") return false;
-    if (!showData.value && entry.type === "data") return false;
-    if (!showFont.value && entry.type === "font") return false;
-    return (
-      search.value === "" ||
-      entry.path.toLowerCase().includes(search.value.toLowerCase())
-    );
-  }).sort((a, b) => {
-    if (sortBy.value == "index") {
-      return sortDirection.value == "asc"
-        ? a.index - b.index
-        : b.index - a.index;
-    } else if (sortBy.value == "path") {
-      return sortDirection.value == "asc"
-        ? a.path.localeCompare(b.path)
-        : b.path.localeCompare(a.path);
-    } else if (sortBy.value == "size") {
-      return sortDirection.value == "asc"
-        ? a.size - b.size
-        : b.size - a.size;
-    }
-    return 0;
-  });
+  return chronoStore.resourceEntries
+    .filter((entry) => {
+      if (!showImages.value && entry.type === "image") return false;
+      if (!showAudio.value && entry.type === "audio") return false;
+      if (!showText.value && entry.type === "text") return false;
+      if (!showData.value && entry.type === "data") return false;
+      if (!showFont.value && entry.type === "font") return false;
+      return (
+        search.value === "" ||
+        entry.path.toLowerCase().includes(search.value.toLowerCase())
+      );
+    })
+    .sort((a, b) => {
+      if (sortBy.value == "index") {
+        return sortDirection.value == "asc"
+          ? a.index - b.index
+          : b.index - a.index;
+      } else if (sortBy.value == "path") {
+        return sortDirection.value == "asc"
+          ? a.path.localeCompare(b.path)
+          : b.path.localeCompare(a.path);
+      } else if (sortBy.value == "size") {
+        return sortDirection.value == "asc" ? a.size - b.size : b.size - a.size;
+      }
+      return 0;
+    });
 });
 
 const { list, containerProps, wrapperProps } = useVirtualList(
@@ -217,11 +222,10 @@ const { list, containerProps, wrapperProps } = useVirtualList(
 );
 
 watch(filteredResourceEntries, () => {
-  if(containerProps.ref.value){
+  if (containerProps.ref.value) {
     containerProps.ref.value.scrollTop = 0;
   }
 });
-
 
 const decodeAndDecompress = async (offset: number, size: number) => {
   return chronoStore.decodeAndDecompress(offset, size);

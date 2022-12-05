@@ -23,8 +23,6 @@ import ResourceEntryPreviewFont from "./ResourceEntryPreviewFont.vue";
 import ResourceEntryPreviewUnsupported from "./ResourceEntryPreviewUnsupported.vue";
 import { ResourceEntry, ResourceEntryType } from "../stores/ChronoStore";
 import { downloadWithStreamsaver } from "../util/Download";
-import streamsaver from "streamsaver";
-import { makeZip } from 'client-zip'
 
 const componentMap: Record<ResourceEntryType, any> = {
   image: ResourceEntryPreviewImage,
