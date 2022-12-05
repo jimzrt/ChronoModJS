@@ -172,17 +172,20 @@ const changeSort = (sort: "index" | "path" | "size") => {
     sortDirection.value = "asc";
   }
 };
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const extractAll = async () => {
   const dataGenerator = async function* () {
     for (const entry of chronoStore.resourceEntries) {
+      // sleep 10 ms
+      await sleep(10);
       const data = await decodeAndDecompress(entry.offset, entry.size);
       yield { name: entry.path, input: data };
     }
   };
-  await makeZip(dataGenerator()).pipeTo(
-    streamsaver.createWriteStream("resourcebin.zip")
-  );
+  streamsaver.mitm = 'mitm.html'
+  const fileStream = streamsaver.createWriteStream("resourcebin.zip")
+  await makeZip(dataGenerator()).pipeTo(fileStream);
 };
 
 const filteredResourceEntries = computed(() => {
