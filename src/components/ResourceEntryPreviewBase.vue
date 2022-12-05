@@ -11,7 +11,9 @@
       :onGetData="onGetData"
       class="flex-1"
     />
-    <div class="flex gap-2 w-full p-2"><button @click="download">Extract...</button><button>Replace...</button></div>
+    <div class="flex gap-2 w-full p-2">
+      <button @click="download">Extract...</button><button>Replace...</button>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -20,6 +22,9 @@ import ResourceEntryPreviewText from "./ResourceEntryPreviewText.vue";
 import ResourceEntryPreviewFont from "./ResourceEntryPreviewFont.vue";
 import ResourceEntryPreviewUnsupported from "./ResourceEntryPreviewUnsupported.vue";
 import { ResourceEntry, ResourceEntryType } from "../stores/ChronoStore";
+import { downloadWithStreamsaver } from "../util/Download";
+import streamsaver from "streamsaver";
+import { makeZip } from 'client-zip'
 
 const componentMap: Record<ResourceEntryType, any> = {
   image: ResourceEntryPreviewImage,
@@ -33,17 +38,23 @@ const props = defineProps<{
   onGetData: (resourceEntry: ResourceEntry) => Promise<Uint8Array>;
 }>();
 
+// const download = async () => {
+//   const data = await props.onGetData(props.value);
+//   const blob = new Blob([data], { type: "application/octet-stream" });
+//   const url = URL.createObjectURL(blob);
+//   const link = document.createElement("a");
+//   link.href = url;
+//   const path = props.value.path;
+//   const filename = path.split("/").pop() || "file";
+//   link.download = filename;
+//   link.click();
+// };
+
 const download = async () => {
   const data = await props.onGetData(props.value);
-  const blob = new Blob([data], { type: "application/octet-stream" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
   const path = props.value.path;
   const filename = path.split("/").pop() || "file";
-  link.download = filename;
-  link.click();
+
+  downloadWithStreamsaver(filename, data);
 };
-
-
 </script>

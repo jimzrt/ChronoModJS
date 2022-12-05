@@ -11,18 +11,21 @@
   "dependencies": {
     "@heroicons/vue": "^2.0.13",
     "@vueuse/core": "^9.6.0",
+    "client-zip": "^2.3.0",
     "pako": "^2.1.0",
     "pinia": "^2.0.27",
-    "vue": "^3.2.41"
+    "streamsaver": "^2.0.6",
+    "vue": "^3.2.45"
   },
   "devDependencies": {
     "@types/pako": "^2.0.0",
+    "@types/streamsaver": "^2.0.1",
     "@vitejs/plugin-vue": "^3.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4",
-    "typescript": "^4.6.4",
-    "vite": "^3.2.3",
-    "vue-tsc": "^1.0.9"
+    "typescript": "^4.9.3",
+    "vite": "^3.2.4",
+    "vue-tsc": "^1.0.11"
   }
 }

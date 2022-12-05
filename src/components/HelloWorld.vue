@@ -96,6 +96,12 @@
         >
           <span><LanguageIcon class="w-4" /></span><span>Font</span>
         </button>
+        <button
+          @click="() => extractAll()"
+          class="flex gap-2 items-center"
+        >
+          <span><ArrowDownTrayIcon class="w-4" /></span><span>Extract All</span>
+        </button>
       </div>
     </div>
     <!-- preview resourceEntry -->
@@ -124,7 +130,10 @@ import {
   LanguageIcon,
   ChevronUpIcon,
   ChevronDownIcon,
+  ArrowDownTrayIcon
 } from "@heroicons/vue/24/outline";
+import streamsaver from "streamsaver";
+import { makeZip } from "client-zip";
 
 defineProps({
   msg: {
@@ -158,7 +167,16 @@ const changeSort = (sort: "index" | "path" | "size") => {
   }
 };
 
+const extractAll = async () => {
+  const dataGenerator = async function* () {
+    for(const entry of chronoStore.resourceEntries) {
+      const data = await decodeAndDecompress(entry.offset, entry.size);
+      yield { name: entry.path, input: data }
+    }
 
+  };
+  await makeZip(dataGenerator()).pipeTo(streamsaver.createWriteStream("resourcebin.zip"));
+};
 
 
 const filteredResourceEntries = computed(() => {
