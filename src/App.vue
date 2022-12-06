@@ -16,9 +16,10 @@
               <img class="h-8 w-auto" src="./assets/logo.ico" alt="Logo" />
             </a>
           </div>
+          <div class="flex flex-wrap">
           <ResourceBinLoader />
           <ChronoExeLoader />
-
+        </div>
           <!-- Right section on desktop -->
           <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
             <Menu as="div" class="ml-4 relative flex-shrink-0">
@@ -93,7 +94,7 @@
           </div>
 
           <!-- Search -->
-          <div class="flex-1 min-w-0 px-12 lg:hidden">
+          <div class="flex-1 min-w-4 pr-2 lg:hidden">
             <div class="max-w-xs w-full mx-auto">
               <label for="desktop-search" class="sr-only">Search</label>
               <div class="relative text-white focus-within:text-gray-600">
@@ -115,7 +116,7 @@
           </div>
 
           <!-- Menu button -->
-          <div class="absolute right-0 flex-shrink-0 lg:hidden">
+          <div class=" flex-shrink-0 lg:hidden">
             <!-- Mobile menu button -->
             <PopoverButton
               class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-indigo-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
@@ -272,7 +273,7 @@
       </TransitionRoot>
     </Popover>
     <main class="-mt-24 pb-8">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div class="max-w-3xl mx-auto px-2 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 class="sr-only">Page title</h1>
         <!-- Main 3 column grid -->
         <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
@@ -281,13 +282,12 @@
             <section aria-labelledby="section-1-title">
               <h2 class="sr-only" id="section-1-title">Section title</h2>
               <div class="rounded-lg bg-white shadow">
-                <div class="">
                   <!-- Your content -->
                   <div
                     class="bg-gray-700 w-full h-10 sm:rounded-t-md flex-shrink-0 flex px-4 sm:px-6 items-center text-white"
                   >
                     <div
-                      class="w-[10%] flex gap-2 items-center cursor-pointer"
+                      class="w-14 flex gap-2 items-center cursor-pointer"
                       @click="() => changeSort('index')"
                     >
                       <span>Idx</span>
@@ -302,7 +302,7 @@
                       /></span>
                     </div>
                     <div
-                      class="w-[75%] flex gap-2 items-center cursor-pointer"
+                      class="flex-1 flex gap-2 items-center cursor-pointer"
                       @click="() => changeSort('path')"
                     >
                       <span>Path</span>
@@ -317,7 +317,7 @@
                       /></span>
                     </div>
                     <div
-                      class="w-[15%] flex gap-2 items-center cursor-pointer"
+                      class="w-16 flex gap-2 items-center cursor-pointer"
                       @click="() => changeSort('size')"
                     >
                       <span>Size</span>
@@ -361,10 +361,9 @@
                       </li>
                     </ul>
                   </div>
-                </div>
               </div>
             </section>
-            <div class="flex px-2 gap-2">
+            <div class="flex flex-wrap px-2 gap-2">
               <button
                 @click="() => toggleShowImages()"
                 class="flex gap-2 items-center"

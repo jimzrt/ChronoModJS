@@ -7,7 +7,9 @@
 }
 
 button {
-    @apply p-2
+    @apply
+      p-1
+      lg:p-2
       rounded
       border
       border-gray-300

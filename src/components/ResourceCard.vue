@@ -1,9 +1,13 @@
 <template>
   <!-- resource card with tailwind -->
-  <div class="flex justify-between text-black">
-    <div class="w-[10%]">{{props.value.index}}</div>
-    <div class="w-[75%] flex gap-2 items-center"><span><Component :is="componentMap[props.value.type]" class="w-4"/></span><span>{{ props.value.path }}</span></div>
-    <div class="w-[15%]">{{ formatSize(props.value.size) }}</div>
+  <div class="flex flex-wrap w-full h-full text-black items-center text-sm lg:text-base">
+    <div class="w-14">{{props.value.index}}</div>
+    <div class="flex-1 flex gap-2 items-center">
+      <span><Component :is="componentMap[props.value.type]" class="w-4"/></span>
+      <span class="hidden lg:block">{{ props.value.path }}</span>
+      <span class="block lg:hidden">{{ extractFileName(props.value.path) }}</span>
+    </div>
+    <div class="w-16">{{ formatSize(props.value.size) }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -16,6 +20,14 @@ const componentMap: Record<ResourceEntryType, any> = {
   font: LanguageIcon,
   audio: SpeakerWaveIcon,
   data: CircleStackIcon,
+};
+
+const extractFileName = (path: string) => {
+  const split = path.split("/")
+  if(split.length > 1){
+    return "../" + split[split.length - 1]
+  }
+  return split[split.length - 1]
 };
 
 const props = defineProps<{ value: ResourceEntry }>();
