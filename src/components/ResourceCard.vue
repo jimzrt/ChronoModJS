@@ -7,7 +7,7 @@
       <span class="hidden lg:block">{{ props.value.path }}</span>
       <span class="block lg:hidden">{{ extractFileName(props.value.path) }}</span>
     </div>
-    <div class="w-16">{{ formatSize(props.value.size) }}</div>
+    <div class="w-[4.5rem]">{{ formatSize(props.value.size) }}</div>
   </div>
 </template>
 <script setup lang="ts">

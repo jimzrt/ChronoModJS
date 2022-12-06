@@ -317,7 +317,7 @@
                       /></span>
                     </div>
                     <div
-                      class="w-16 flex gap-2 items-center cursor-pointer"
+                      class="w-[4.5rem] flex gap-2 items-center cursor-pointer"
                       @click="() => changeSort('size')"
                     >
                       <span>Size</span>
@@ -334,7 +334,7 @@
                   </div>
 
                   <div
-                    class="sm:rounded-b-md h-[600px] overflow-scroll"
+                    class="sm:rounded-b-md h-[500px] overflow-scroll"
                     v-bind="containerProps"
                   >
                     <ul
@@ -417,7 +417,7 @@
             <section aria-labelledby="section-2-title">
               <h2 class="sr-only" id="section-2-title">Section title</h2>
               <div
-                class="rounded-lg bg-gray-700 shadow max-w-xl min-h-[300px] max-h-[600px] overflow-scroll"
+                class="rounded-lg bg-gray-700 shadow max-w-xl min-h-[300px] max-h-[500px] overflow-scroll"
               >
                 <ResourceEntryPreviewBase
                   :value="selectedResourceEntry"
@@ -446,8 +446,7 @@
         <div
           class="border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-left"
         >
-          <span class="block sm:inline">&copy; 2021 Tailwind Labs Inc.</span>
-          <span class="block sm:inline">All rights reserved.</span>
+          <span class="block sm:inline">&copy; 2022 jimzrt</span>
         </div>
       </div>
     </footer>
