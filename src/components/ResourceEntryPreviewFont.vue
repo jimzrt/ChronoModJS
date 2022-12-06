@@ -2,8 +2,8 @@
   <div class="w-full h-full flex flex-col justify-center items-center">
     <ChronoExeLoader v-if="!keyLoaded" />
     <Spinner v-else-if="loading" />
-    <h2 v-else id="fontPreview">
-      This is a sample Text!!<br />Lets write some text y'all!
+    <h2 v-else id="fontPreview" class="p-2">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     </h2>
   </div>
 </template>

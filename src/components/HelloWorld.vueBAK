@@ -140,7 +140,7 @@ import {
   ArrowDownTrayIcon,
 } from "@heroicons/vue/24/outline";
 import streamsaver from "streamsaver";
-import { makeZip } from "client-zip";
+import { makeZip, downloadZip } from "client-zip";
 
 defineProps({
   msg: {
@@ -181,15 +181,19 @@ const extractAll = async () => {
       yield { name: entry.path, input: data };
     }
   };
-  // const metadataGenerator = function* () {
-  //   for(const entry of chronoStore.resourceEntries) {
-  //     yield { name: entry.path, size: entry.size };
-  //   }
-  // }
-  // const packedSize = predictLength(metadataGenerator());
-  streamsaver.mitm = 'mitm.html'
-  const fileStream = streamsaver.createWriteStream("resourcebin.zip");
-  await makeZip(dataGenerator()).pipeTo(fileStream);
+
+  // streamsaver.mitm = 'mitm.html'
+  // const fileStream = streamsaver.createWriteStream("resourcebin.zip");
+  // await makeZip(dataGenerator()).pipeTo(fileStream);
+  const zip = await downloadZip(dataGenerator()).blob();
+  const url = URL.createObjectURL(zip);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "resourcebin.zip";
+  a.click();
+  // cleanup
+  URL.revokeObjectURL(url);
+
 };
 
 const filteredResourceEntries = computed(() => {
