@@ -1,6 +1,6 @@
 <template>
   <!-- resource card with tailwind -->
-  <div class="flex flex-wrap w-full h-full text-black items-center text-sm lg:text-base cursor-pointer">
+  <div class="flex flex-wrap w-full h-full text-black items-center text-sm lg:text-base">
     <div class="w-14">{{props.value.index}}</div>
     <div class="flex-1 flex gap-2 items-center">
       <span><Component :is="componentMap[props.value.type]" class="w-4"/></span>

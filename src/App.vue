@@ -345,7 +345,7 @@
                       style="height: 60px"
                     >
                       <div
-                        class="px-4 py-4 sm:px-6 h-full w-full"
+                        class="px-4 py-4 sm:px-6 h-full w-full cursor-pointer"
                         :class="
                           item.data == selectedResourceEntry
                             ? 'bg-gray-200'
