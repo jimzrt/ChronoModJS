@@ -360,7 +360,7 @@
                 </div>
               </div>
             </section>
-            <div class="flex flex-wrap px-2 gap-2">
+            <div class="flex flex-wrap px-2 gap-2 w-full">
               <button
                 @click="() => toggleShowImages()"
                 class="flex gap-2 items-center"
@@ -396,6 +396,7 @@
               >
                 <span><LanguageIcon class="w-4" /></span><span>Font</span>
               </button>
+              <div class="flex-1" />
               <button
                 @click="() => extractAll()"
                 class="flex gap-2 items-center"
