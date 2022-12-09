@@ -12,6 +12,7 @@
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "@vueuse/core": "^9.6.0",
+    "@zip.js/zip.js": "^2.6.60",
     "client-zip": "^2.3.0",
     "pako": "^2.1.0",
     "pinia": "^2.0.27",

@@ -16,10 +16,7 @@
               <img class="h-8 w-auto" src="./assets/logo.ico" alt="Logo" />
             </a>
           </div>
-          <div class="flex flex-wrap">
-          <ResourceBinLoader />
-          <ChronoExeLoader />
-        </div>
+
           <!-- Right section on desktop -->
           <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
             <Menu as="div" class="ml-4 relative flex-shrink-0">
@@ -116,7 +113,7 @@
           </div>
 
           <!-- Menu button -->
-          <div class=" flex-shrink-0 lg:hidden">
+          <div class="flex-shrink-0 lg:hidden">
             <!-- Mobile menu button -->
             <PopoverButton
               class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-indigo-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
@@ -282,85 +279,85 @@
             <section aria-labelledby="section-1-title">
               <h2 class="sr-only" id="section-1-title">Section title</h2>
               <div class="rounded-lg bg-white shadow">
-                  <!-- Your content -->
+                <!-- Your content -->
+                <div
+                  class="bg-gray-700 w-full h-10 sm:rounded-t-md flex-shrink-0 flex px-4 sm:px-6 items-center text-white"
+                >
                   <div
-                    class="bg-gray-700 w-full h-10 sm:rounded-t-md flex-shrink-0 flex px-4 sm:px-6 items-center text-white"
+                    class="w-14 flex gap-2 items-center cursor-pointer"
+                    @click="() => changeSort('index')"
                   >
-                    <div
-                      class="w-14 flex gap-2 items-center cursor-pointer"
-                      @click="() => changeSort('index')"
-                    >
-                      <span>Idx</span>
-                      <span v-if="sortBy == 'index'"
-                        ><Component
-                          :is="
-                            sortDirection == 'asc'
-                              ? ChevronUpIcon
-                              : ChevronDownIcon
-                          "
-                          class="w-4"
-                      /></span>
-                    </div>
-                    <div
-                      class="flex-1 flex gap-2 items-center cursor-pointer"
-                      @click="() => changeSort('path')"
-                    >
-                      <span>Path</span>
-                      <span v-if="sortBy == 'path'"
-                        ><Component
-                          :is="
-                            sortDirection == 'asc'
-                              ? ChevronUpIcon
-                              : ChevronDownIcon
-                          "
-                          class="w-4"
-                      /></span>
-                    </div>
-                    <div
-                      class="w-[4.5rem] flex gap-2 items-center cursor-pointer"
-                      @click="() => changeSort('size')"
-                    >
-                      <span>Size</span>
-                      <span v-if="sortBy == 'size'"
-                        ><Component
-                          :is="
-                            sortDirection == 'asc'
-                              ? ChevronUpIcon
-                              : ChevronDownIcon
-                          "
-                          class="w-4"
-                      /></span>
-                    </div>
+                    <span>Idx</span>
+                    <span v-if="sortBy == 'index'"
+                      ><Component
+                        :is="
+                          sortDirection == 'asc'
+                            ? ChevronUpIcon
+                            : ChevronDownIcon
+                        "
+                        class="w-4"
+                    /></span>
                   </div>
+                  <div
+                    class="flex-1 flex gap-2 items-center cursor-pointer"
+                    @click="() => changeSort('path')"
+                  >
+                    <span>Path</span>
+                    <span v-if="sortBy == 'path'"
+                      ><Component
+                        :is="
+                          sortDirection == 'asc'
+                            ? ChevronUpIcon
+                            : ChevronDownIcon
+                        "
+                        class="w-4"
+                    /></span>
+                  </div>
+                  <div
+                    class="w-[4.5rem] flex gap-2 items-center cursor-pointer"
+                    @click="() => changeSort('size')"
+                  >
+                    <span>Size</span>
+                    <span v-if="sortBy == 'size'"
+                      ><Component
+                        :is="
+                          sortDirection == 'asc'
+                            ? ChevronUpIcon
+                            : ChevronDownIcon
+                        "
+                        class="w-4"
+                    /></span>
+                  </div>
+                </div>
 
-                  <div
-                    class="sm:rounded-b-md h-[500px] overflow-scroll"
-                    v-bind="containerProps"
+                <div
+                  class="sm:rounded-b-md h-[500px] overflow-scroll"
+                  v-bind="containerProps"
+                >
+                  <ul
+                    role="list"
+                    class="divide-y divide-gray-200"
+                    v-bind="wrapperProps"
                   >
-                    <ul
-                      role="list"
-                      class="divide-y divide-gray-200"
-                      v-bind="wrapperProps"
+                    <li
+                      v-for="item in list"
+                      :key="item.index"
+                      style="height: 60px"
                     >
-                      <li
-                        v-for="item in list"
-                        :key="item.index"
-                        style="height: 60px"
+                      <div
+                        class="px-4 py-4 sm:px-6 h-full w-full"
+                        :class="
+                          item.data == selectedResourceEntry
+                            ? 'bg-gray-200'
+                            : ''
+                        "
+                        @click="() => (selectedResourceEntry == item.data ? (selectedResourceEntry = null) : (selectedResourceEntry = item.data))"
                       >
-                        <div
-                          class="px-4 py-4 sm:px-6 h-full w-full"
-                          :class="
-                            item.data == selectedResourceEntry
-                              ? 'bg-gray-200'
-                              : ''
-                          "
-                          @click="() => (selectedResourceEntry = item.data)"
-                        >
-                          <ResourceCard :value="item.data" />
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                        <ResourceCard :value="item.data" />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </section>
             <div class="flex flex-wrap px-2 gap-2">
@@ -451,6 +448,10 @@
       </div>
     </footer>
   </div>
+  <ResourceLoaderOverlay :show="!resourcesLoaded" />
+  <ZipOverlay :show="showZipOverlay" :zipStatus="zipStatus" @close="(showZipOverlay = false)" />
+  <input ref="ctpUploadRef" type="file" id="ctpUpload" style="display:none" />
+
 </template>
 
 <script lang="ts" setup>
@@ -485,14 +486,17 @@ import ResourceCard from "./components/ResourceCard.vue";
 import ResourceEntryPreviewBase from "./components/ResourceEntryPreviewBase.vue";
 import { useVirtualList, useToggle } from "@vueuse/core";
 import { ResourceEntry, useChronoStore } from "./stores/ChronoStore";
-import { computed, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { downloadWithBlob } from "./util/Download";
 import { downloadZip, makeZip } from "client-zip";
-import streamsaver from "streamsaver";
-
+import ZipOverlay from "./components/ZipOverlay.vue";
+import ResourceLoaderOverlay from "./components/ResourceLoaderOverlay.vue";
 const chronoStore = useChronoStore();
 
 const search = ref("");
+const showZipOverlay = ref(false);
+
+const ctpUploadRef = ref<HTMLInputElement | null>(null);
 
 const selectedResourceEntry = ref<ResourceEntry | null>(null);
 
@@ -503,6 +507,8 @@ const [showData, toggleShowData] = useToggle(true);
 const [showFont, toggleShowFont] = useToggle(true);
 const sortBy = ref<"index" | "path" | "size">("index");
 const sortDirection = ref<"asc" | "desc">("asc");
+
+const resourcesLoaded = computed(() => chronoStore.keyBuffer != null && chronoStore.resourceEntries.length > 0);
 
 const changeSort = (sort: "index" | "path" | "size") => {
   if (sortBy.value == sort) {
@@ -567,30 +573,40 @@ const extract = async (entry: ResourceEntry) => {
   downloadWithBlob(filename, data);
 };
 
+const zipStatus = reactive({
+  current: 0,
+  total: 0,
+});
+
 const extractAll = async () => {
   const dataGenerator = async function* () {
-    for (const entry of chronoStore.resourceEntries) {
+    zipStatus.total = chronoStore.resourceEntries.length;
+    for (const [index, entry] of chronoStore.resourceEntries.entries()) {
+      zipStatus.current = index;
       const data = await readDecodeAndDecompress(entry.offset, entry.size);
       yield { name: entry.path, input: data };
     }
   };
 
-  streamsaver.mitm = "mitm.html";
-  const fileStream = streamsaver.createWriteStream("resourcebin.zip");
-  await makeZip(dataGenerator()).pipeTo(fileStream);
-
-  // const zip = await downloadZip(dataGenerator()).blob();
-  // const url = URL.createObjectURL(zip);
-  // const a = document.createElement("a");
-  // a.href = url;
-  // a.download = "resourcebin.zip";
-  // a.click();
-  // // cleanup
-  // URL.revokeObjectURL(url);
+  // streamsaver.mitm = "mitm.html";
+  // const fileStream = streamsaver.createWriteStream("resourcebin.zip");
+  // await makeZip(dataGenerator()).pipeTo(fileStream);
+  showZipOverlay.value = true;
+  const zip = await downloadZip(dataGenerator()).blob();
+  zipStatus.current++;
+  const url = URL.createObjectURL(zip);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "resourcebin.zip";
+  a.click();
+  // cleanup
+  URL.revokeObjectURL(url);
+  showZipOverlay.value = false;
 };
 
 const onLoadPatch = () => {
   console.log("onLoadPatch");
+  ctpUploadRef.value?.click();
 };
 
 const onSavePatch = () => {
